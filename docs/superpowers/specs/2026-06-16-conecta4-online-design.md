@@ -76,6 +76,8 @@ Mensajes JSON con campo `type`.
 
 ## Experiencia de usuario (UX)
 
+**Estética visual: cyberpunk.** Fondo oscuro (negro/azul muy oscuro), acentos en colores neón (cian, magenta, violeta), bordes y textos con efecto glow/sombra luminosa, tipografía futurista para títulos (ej. una fuente monoespaciada o tipo "tech") y tipografía legible para el resto. Las fichas de los jugadores usan dos neones contrastantes (ej. cian vs magenta) en lugar de los colores clásicos rojo/amarillo. El tablero tiene un borde con glow sutil y rejilla tipo "circuito". Las animaciones (caída de ficha, hover de columna, victoria) usan transiciones con resplandor en vez de solo color plano. La IA se presenta como "IA 🤖" con un toque "synthetic/terminal" (ej. texto tipo máquina al anunciar su jugada).
+
 - **Inicio**: botones "Crear partida" y "Jugar contra la IA", más un campo "Unirse con código".
 - **Esperando rival**: código de sala visible en grande, botón "Copiar enlace", spinner amigable. Transición automática al tablero cuando se une el rival.
 - **Unión fallida**: mensaje claro sin tecnicismos ("Esa sala no existe o ya está completa") y vuelta al inicio.
