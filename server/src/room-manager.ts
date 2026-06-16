@@ -113,6 +113,10 @@ export class RoomManager {
   requestRematch(code: string, clientId: ClientId): boolean {
     const room = this.rooms.get(code);
     if (!room) throw new Error('Sala no encontrada');
+    if (room.status !== 'finished') throw new Error('La partida no ha terminado');
+
+    const player = room.players.find((p) => p.id === clientId);
+    if (!player) throw new Error('Jugador no pertenece a la sala');
 
     room.rematchRequestedBy.add(clientId);
     const allRequested = room.players.every((p) => room.rematchRequestedBy.has(p.id));

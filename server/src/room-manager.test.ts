@@ -126,7 +126,15 @@ describe('RoomManager.requestRematch', () => {
   it('restarts immediately for a vsAI room', () => {
     const manager = new RoomManager();
     const room = manager.createAIRoom('player-1');
-    manager.makeMove(room.code, 'player-1', 0);
+    manager.makeMove(room.code, 'player-1', 0); // row5 col0
+    manager.applyAIMove(room.code, 4); // row5 col4
+    manager.makeMove(room.code, 'player-1', 1); // row5 col1
+    manager.applyAIMove(room.code, 5); // row5 col5
+    manager.makeMove(room.code, 'player-1', 2); // row5 col2
+    manager.applyAIMove(room.code, 6); // row5 col6
+    manager.makeMove(room.code, 'player-1', 3); // player 1 wins horizontally
+    expect(manager.getRoom(room.code)?.status).toBe('finished');
+
     const accepted = manager.requestRematch(room.code, 'player-1');
     expect(accepted).toBe(true);
     const refreshed = manager.getRoom(room.code);
@@ -138,7 +146,42 @@ describe('RoomManager.requestRematch', () => {
     const manager = new RoomManager();
     const room = manager.createRoom('host-1');
     manager.joinRoom(room.code, 'guest-1');
+    manager.makeMove(room.code, 'host-1', 0); // row5 col0
+    manager.makeMove(room.code, 'guest-1', 4); // row5 col4
+    manager.makeMove(room.code, 'host-1', 1); // row5 col1
+    manager.makeMove(room.code, 'guest-1', 5); // row5 col5
+    manager.makeMove(room.code, 'host-1', 2); // row5 col2
+    manager.makeMove(room.code, 'guest-1', 6); // row5 col6
+    manager.makeMove(room.code, 'host-1', 3); // host wins horizontally
+    expect(manager.getRoom(room.code)?.status).toBe('finished');
+
     expect(manager.requestRematch(room.code, 'host-1')).toBe(false);
     expect(manager.requestRematch(room.code, 'guest-1')).toBe(true);
+  });
+
+  it('throws when the game is still in progress', () => {
+    const manager = new RoomManager();
+    const room = manager.createAIRoom('player-1');
+    expect(() => manager.requestRematch(room.code, 'player-1')).toThrow(
+      'La partida no ha terminado'
+    );
+  });
+
+  it('throws when requested by a client outside the room', () => {
+    const manager = new RoomManager();
+    const room = manager.createRoom('host-1');
+    manager.joinRoom(room.code, 'guest-1');
+    manager.makeMove(room.code, 'host-1', 0); // row5 col0
+    manager.makeMove(room.code, 'guest-1', 4); // row5 col4
+    manager.makeMove(room.code, 'host-1', 1); // row5 col1
+    manager.makeMove(room.code, 'guest-1', 5); // row5 col5
+    manager.makeMove(room.code, 'host-1', 2); // row5 col2
+    manager.makeMove(room.code, 'guest-1', 6); // row5 col6
+    manager.makeMove(room.code, 'host-1', 3); // host wins horizontally
+    expect(manager.getRoom(room.code)?.status).toBe('finished');
+
+    expect(() => manager.requestRematch(room.code, 'intruder')).toThrow(
+      'Jugador no pertenece a la sala'
+    );
   });
 });
