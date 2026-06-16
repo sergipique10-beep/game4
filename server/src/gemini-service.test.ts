@@ -8,6 +8,7 @@ describe('buildPrompt', () => {
     expect(prompt).toContain('0');
     expect(prompt).toContain('6');
     expect(prompt).toContain('1');
+    expect(prompt).toContain('0 0 0 1 0 0 0');
   });
 });
 
@@ -26,5 +27,9 @@ describe('parseColumn', () => {
 
   it('returns null for digits outside 0-6', () => {
     expect(parseColumn('9')).toBeNull();
+  });
+
+  it('does not parse a digit that is part of a larger number', () => {
+    expect(parseColumn('10')).toBeNull();
   });
 });

@@ -13,7 +13,7 @@ export function buildPrompt(board: Board, aiPlayer: CellValue): string {
 }
 
 export function parseColumn(response: string): number | null {
-  const match = response.match(/[0-6]/);
+  const match = response.match(/(?<![0-9])[0-6](?![0-9])/);
   if (!match) return null;
   return parseInt(match[0], 10);
 }
