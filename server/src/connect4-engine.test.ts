@@ -1,4 +1,4 @@
-import { createEmptyBoard, getValidColumns, applyMove, checkWin, ROWS, COLS } from './connect4-engine';
+import { createEmptyBoard, getValidColumns, applyMove, checkWin, checkDraw, ROWS, COLS } from './connect4-engine';
 
 describe('createEmptyBoard', () => {
   it('creates a 6x7 board full of zeros', () => {
@@ -108,5 +108,16 @@ describe('checkWin', () => {
     const result = checkWin(board, 0, 3);
     expect(result?.winner).toBe(2);
     expect(result?.cells).toHaveLength(4);
+  });
+});
+
+describe('checkDraw', () => {
+  it('returns false on an empty board', () => {
+    expect(checkDraw(createEmptyBoard())).toBe(false);
+  });
+
+  it('returns true when the board is full', () => {
+    const board = createEmptyBoard().map((row) => row.map(() => 1 as const));
+    expect(checkDraw(board)).toBe(true);
   });
 });

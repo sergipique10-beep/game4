@@ -70,3 +70,7 @@ export function checkWin(board: Board, row: number, col: number): WinResult | nu
 
   return null;
 }
+
+export function checkDraw(board: Board): boolean {
+  return getValidColumns(board).length === 0;
+}
