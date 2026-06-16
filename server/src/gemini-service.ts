@@ -40,8 +40,8 @@ export async function getAIMove(
       if (col !== null && validColumns.includes(col)) {
         return col;
       }
-    } catch {
-      // ignore and retry
+    } catch (err) {
+      console.warn(`Gemini intento ${attempt + 1}/${MAX_ATTEMPTS} falló:`, err);
     }
   }
 
