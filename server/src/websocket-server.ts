@@ -150,6 +150,10 @@ export function createWebSocketServer(
       broadcastMoveOutcome(refreshed, outcome);
     } catch (err) {
       console.warn(`Error al ejecutar el turno de la IA en la sala ${code}:`, err);
+      const room = roomManager.getRoom(code);
+      if (room) {
+        broadcast(room, { type: 'error', message: 'La IA no pudo realizar su jugada' });
+      }
     }
   }
 
