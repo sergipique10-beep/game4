@@ -98,7 +98,10 @@ export function createWebSocketServer(
       }
       case 'request_rematch': {
         const room = roomManager.getRoomByClient(clientId);
-        if (!room) return;
+        if (!room) {
+          send(socket, { type: 'error', message: 'No estás en ninguna partida' });
+          return;
+        }
         try {
           const accepted = roomManager.requestRematch(room.code, clientId);
           if (accepted) {
@@ -133,17 +136,21 @@ export function createWebSocketServer(
   }
 
   async function playAITurn(code: string): Promise<void> {
-    const room = roomManager.getRoom(code);
-    if (!room) return;
+    try {
+      const room = roomManager.getRoom(code);
+      if (!room) return;
 
-    await new Promise((resolve) => setTimeout(resolve, 600 + Math.random() * 300));
+      await new Promise((resolve) => setTimeout(resolve, 600 + Math.random() * 300));
 
-    const refreshed = roomManager.getRoom(code);
-    if (!refreshed || refreshed.status !== 'playing') return;
+      const refreshed = roomManager.getRoom(code);
+      if (!refreshed || refreshed.status !== 'playing') return;
 
-    const col = await getAIMove(refreshed.board, refreshed.currentPlayer, createGeminiClient());
-    const outcome = roomManager.applyAIMove(code, col);
-    broadcastMoveOutcome(refreshed, outcome);
+      const col = await getAIMove(refreshed.board, refreshed.currentPlayer, createGeminiClient());
+      const outcome = roomManager.applyAIMove(code, col);
+      broadcastMoveOutcome(refreshed, outcome);
+    } catch (err) {
+      console.warn(`Error al ejecutar el turno de la IA en la sala ${code}:`, err);
+    }
   }
 
   return wss;
