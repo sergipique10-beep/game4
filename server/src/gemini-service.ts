@@ -1,4 +1,5 @@
 import { Board, CellValue } from './types';
+import { getValidColumns } from './connect4-engine';
 
 export function buildPrompt(board: Board, aiPlayer: CellValue): string {
   const rows = board.map((row) => row.join(' ')).join('\n');
@@ -16,4 +17,33 @@ export function parseColumn(response: string): number | null {
   const match = response.match(/(?<![0-9])[0-6](?![0-9])/);
   if (!match) return null;
   return parseInt(match[0], 10);
+}
+
+export interface GeminiClient {
+  generateMove(prompt: string): Promise<string>;
+}
+
+const MAX_ATTEMPTS = 3;
+
+export async function getAIMove(
+  board: Board,
+  aiPlayer: CellValue,
+  client: GeminiClient
+): Promise<number> {
+  const prompt = buildPrompt(board, aiPlayer);
+  const validColumns = getValidColumns(board);
+
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    try {
+      const response = await client.generateMove(prompt);
+      const col = parseColumn(response);
+      if (col !== null && validColumns.includes(col)) {
+        return col;
+      }
+    } catch {
+      // ignore and retry
+    }
+  }
+
+  return validColumns[Math.floor(Math.random() * validColumns.length)];
 }
