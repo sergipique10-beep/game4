@@ -92,4 +92,38 @@ export class RoomManager {
 
     return this.resolveMove(room, col, player.player);
   }
+
+  applyAIMove(code: string, col: number): MoveOutcome {
+    const room = this.rooms.get(code);
+    if (!room) throw new Error('Sala no encontrada');
+    return this.resolveMove(room, col, room.currentPlayer);
+  }
+
+  getRoomByClient(clientId: ClientId): Room | undefined {
+    for (const room of this.rooms.values()) {
+      if (room.players.some((p) => p.id === clientId)) return room;
+    }
+    return undefined;
+  }
+
+  leaveRoom(code: string, _clientId: ClientId): void {
+    this.rooms.delete(code);
+  }
+
+  requestRematch(code: string, clientId: ClientId): boolean {
+    const room = this.rooms.get(code);
+    if (!room) throw new Error('Sala no encontrada');
+
+    room.rematchRequestedBy.add(clientId);
+    const allRequested = room.players.every((p) => room.rematchRequestedBy.has(p.id));
+
+    if (room.vsAI || allRequested) {
+      room.board = createEmptyBoard();
+      room.currentPlayer = 1;
+      room.status = 'playing';
+      room.rematchRequestedBy.clear();
+      return true;
+    }
+    return false;
+  }
 }

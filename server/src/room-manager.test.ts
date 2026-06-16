@@ -88,3 +88,57 @@ describe('RoomManager.makeMove', () => {
     expect(manager.getRoom(room.code)?.status).toBe('finished');
   });
 });
+
+describe('RoomManager.applyAIMove', () => {
+  it('applies the move as the current player without a clientId', () => {
+    const manager = new RoomManager();
+    const room = manager.createAIRoom('player-1');
+    manager.makeMove(room.code, 'player-1', 0); // human plays, AI is now current (player 2)
+    const outcome = manager.applyAIMove(room.code, 1);
+    expect(outcome.col).toBe(1);
+    expect(manager.getRoom(room.code)?.currentPlayer).toBe(1);
+  });
+});
+
+describe('RoomManager.getRoomByClient', () => {
+  it('finds the room a client belongs to', () => {
+    const manager = new RoomManager();
+    const room = manager.createRoom('host-1');
+    expect(manager.getRoomByClient('host-1')?.code).toBe(room.code);
+  });
+
+  it('returns undefined for an unknown client', () => {
+    const manager = new RoomManager();
+    expect(manager.getRoomByClient('nobody')).toBeUndefined();
+  });
+});
+
+describe('RoomManager.leaveRoom', () => {
+  it('removes the room', () => {
+    const manager = new RoomManager();
+    const room = manager.createRoom('host-1');
+    manager.leaveRoom(room.code, 'host-1');
+    expect(manager.getRoom(room.code)).toBeUndefined();
+  });
+});
+
+describe('RoomManager.requestRematch', () => {
+  it('restarts immediately for a vsAI room', () => {
+    const manager = new RoomManager();
+    const room = manager.createAIRoom('player-1');
+    manager.makeMove(room.code, 'player-1', 0);
+    const accepted = manager.requestRematch(room.code, 'player-1');
+    expect(accepted).toBe(true);
+    const refreshed = manager.getRoom(room.code);
+    expect(refreshed?.status).toBe('playing');
+    expect(refreshed?.board.every((row) => row.every((cell) => cell === 0))).toBe(true);
+  });
+
+  it('waits for both players in a 2-player room', () => {
+    const manager = new RoomManager();
+    const room = manager.createRoom('host-1');
+    manager.joinRoom(room.code, 'guest-1');
+    expect(manager.requestRematch(room.code, 'host-1')).toBe(false);
+    expect(manager.requestRematch(room.code, 'guest-1')).toBe(true);
+  });
+});
