@@ -43,7 +43,7 @@ describe('applyMove', () => {
   it('does not mutate the original board', () => {
     const board = createEmptyBoard();
     applyMove(board, 0, 1);
-    expect(board[ROWS - 1][0]).toBe(0);
+    expect(board).toEqual(createEmptyBoard());
   });
 
   it('throws when the column is full', () => {
@@ -57,5 +57,10 @@ describe('applyMove', () => {
   it('throws when the column is out of range', () => {
     const board = createEmptyBoard();
     expect(() => applyMove(board, 7, 1)).toThrow('Columna fuera de rango: 7');
+  });
+
+  it('throws when the column index is negative', () => {
+    const board = createEmptyBoard();
+    expect(() => applyMove(board, -1, 1)).toThrow('Columna fuera de rango: -1');
   });
 });
