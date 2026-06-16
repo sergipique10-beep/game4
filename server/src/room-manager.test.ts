@@ -34,3 +34,57 @@ describe('RoomManager.joinRoom', () => {
     expect(manager.joinRoom(room.code, 'guest-2')).toBeNull();
   });
 });
+
+describe('RoomManager.createAIRoom', () => {
+  it('creates a playing room with vsAI true', () => {
+    const manager = new RoomManager();
+    const room = manager.createAIRoom('player-1');
+    expect(room.status).toBe('playing');
+    expect(room.vsAI).toBe(true);
+    expect(room.players).toEqual([{ id: 'player-1', player: 1 }]);
+  });
+});
+
+describe('RoomManager.makeMove', () => {
+  it('applies the move and switches the turn', () => {
+    const manager = new RoomManager();
+    const room = manager.createAIRoom('player-1');
+    const outcome = manager.makeMove(room.code, 'player-1', 3);
+    expect(outcome.row).toBe(5);
+    expect(outcome.col).toBe(3);
+    expect(outcome.gameOver).toBeUndefined();
+    expect(manager.getRoom(room.code)?.currentPlayer).toBe(2);
+  });
+
+  it('throws when it is not the player turn', () => {
+    const manager = new RoomManager();
+    const room = manager.createRoom('host-1');
+    manager.joinRoom(room.code, 'guest-1');
+    expect(() => manager.makeMove(room.code, 'guest-1', 0)).toThrow('No es tu turno');
+  });
+
+  it('throws for a client outside the room', () => {
+    const manager = new RoomManager();
+    const room = manager.createAIRoom('player-1');
+    expect(() => manager.makeMove(room.code, 'intruder', 0)).toThrow(
+      'Jugador no pertenece a la sala'
+    );
+  });
+
+  it('reports gameOver with result win and winning cells', () => {
+    const manager = new RoomManager();
+    const room = manager.createRoom('host-1');
+    manager.joinRoom(room.code, 'guest-1');
+    manager.makeMove(room.code, 'host-1', 0); // player 1, row5 col0
+    manager.makeMove(room.code, 'guest-1', 4); // player 2, row5 col4
+    manager.makeMove(room.code, 'host-1', 1); // player 1, row5 col1
+    manager.makeMove(room.code, 'guest-1', 5); // player 2, row5 col5
+    manager.makeMove(room.code, 'host-1', 2); // player 1, row5 col2
+    manager.makeMove(room.code, 'guest-1', 6); // player 2, row5 col6 (irrelevant)
+    const outcome = manager.makeMove(room.code, 'host-1', 3); // player 1 wins horizontally on row5 cols 0-3
+    expect(outcome.gameOver?.result).toBe('win');
+    expect(outcome.gameOver?.winner).toBe(1);
+    expect(outcome.gameOver?.cells).toHaveLength(4);
+    expect(manager.getRoom(room.code)?.status).toBe('finished');
+  });
+});
