@@ -1,4 +1,4 @@
-import { Board, CellValue } from './types';
+import { Board, CellValue, WinResult } from './types';
 
 export const ROWS = 6;
 export const COLS = 7;
@@ -31,4 +31,42 @@ export function applyMove(
     }
   }
   throw new Error(`Columna llena: ${col}`);
+}
+
+const DIRECTIONS: [number, number][] = [
+  [0, 1],
+  [1, 0],
+  [1, 1],
+  [1, -1],
+];
+
+export function checkWin(board: Board, row: number, col: number): WinResult | null {
+  const player = board[row][col];
+  if (player === 0) return null;
+
+  for (const [dr, dc] of DIRECTIONS) {
+    const cells: [number, number][] = [[row, col]];
+
+    let r = row + dr;
+    let c = col + dc;
+    while (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === player) {
+      cells.push([r, c]);
+      r += dr;
+      c += dc;
+    }
+
+    r = row - dr;
+    c = col - dc;
+    while (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === player) {
+      cells.push([r, c]);
+      r -= dr;
+      c -= dc;
+    }
+
+    if (cells.length >= 4) {
+      return { winner: player, cells: cells.slice(0, 4) };
+    }
+  }
+
+  return null;
 }

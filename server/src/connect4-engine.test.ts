@@ -1,4 +1,4 @@
-import { createEmptyBoard, getValidColumns, applyMove, ROWS, COLS } from './connect4-engine';
+import { createEmptyBoard, getValidColumns, applyMove, checkWin, ROWS, COLS } from './connect4-engine';
 
 describe('createEmptyBoard', () => {
   it('creates a 6x7 board full of zeros', () => {
@@ -62,5 +62,51 @@ describe('applyMove', () => {
   it('throws when the column index is negative', () => {
     const board = createEmptyBoard();
     expect(() => applyMove(board, -1, 1)).toThrow('Columna fuera de rango: -1');
+  });
+});
+
+describe('checkWin', () => {
+  it('returns null when there is no winner', () => {
+    const board = createEmptyBoard();
+    board[ROWS - 1][0] = 1;
+    expect(checkWin(board, ROWS - 1, 0)).toBeNull();
+  });
+
+  it('detects a horizontal win', () => {
+    const board = createEmptyBoard();
+    for (let col = 0; col < 4; col++) board[ROWS - 1][col] = 1;
+    const result = checkWin(board, ROWS - 1, 3);
+    expect(result?.winner).toBe(1);
+    expect(result?.cells).toHaveLength(4);
+  });
+
+  it('detects a vertical win', () => {
+    const board = createEmptyBoard();
+    for (let row = ROWS - 4; row < ROWS; row++) board[row][2] = 2;
+    const result = checkWin(board, ROWS - 4, 2);
+    expect(result?.winner).toBe(2);
+    expect(result?.cells).toHaveLength(4);
+  });
+
+  it('detects a downward diagonal win (↘)', () => {
+    const board = createEmptyBoard();
+    board[0][0] = 1;
+    board[1][1] = 1;
+    board[2][2] = 1;
+    board[3][3] = 1;
+    const result = checkWin(board, 3, 3);
+    expect(result?.winner).toBe(1);
+    expect(result?.cells).toHaveLength(4);
+  });
+
+  it('detects an upward diagonal win (↗)', () => {
+    const board = createEmptyBoard();
+    board[3][0] = 2;
+    board[2][1] = 2;
+    board[1][2] = 2;
+    board[0][3] = 2;
+    const result = checkWin(board, 0, 3);
+    expect(result?.winner).toBe(2);
+    expect(result?.cells).toHaveLength(4);
   });
 });
