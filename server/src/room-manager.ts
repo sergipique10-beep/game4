@@ -12,9 +12,9 @@ function generateCode(): string {
 }
 
 export class RoomManager {
-  rooms = new Map<string, Room>();
+  private rooms = new Map<string, Room>();
 
-  uniqueCode(): string {
+  private uniqueCode(): string {
     let code = generateCode();
     while (this.rooms.has(code)) {
       code = generateCode();
