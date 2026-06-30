@@ -1,0 +1,51 @@
+.waiting-room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem;
+}
+
+.waiting-room h2 {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+  font-size: 1.6rem;
+}
+
+.waiting-sub {
+  color: var(--text-muted);
+}
+
+.room-code {
+  font-size: 3rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.6rem;
+  color: var(--magenta);
+  text-shadow: var(--glow-magenta);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--magenta);
+  border-radius: var(--radius);
+}
+
+.copy-btn {
+  border-color: var(--violet);
+  color: var(--violet);
+}
+
+.copy-btn:hover:not(:disabled) {
+  box-shadow: var(--glow-violet);
+  background: rgba(157, 77, 255, 0.07);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(0, 240, 255, 0.2);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

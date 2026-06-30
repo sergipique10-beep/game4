@@ -1,0 +1,49 @@
+import { Board, CellValue } from './types';
+import { getValidColumns } from './connect4-engine';
+
+export function buildPrompt(board: Board, aiPlayer: CellValue): string {
+  const rows = board.map((row) => row.join(' ')).join('\n');
+  return [
+    'Estás jugando una partida de Conecta 4.',
+    'El tablero tiene 6 filas y 7 columnas (0 a 6), 0 = vacío, 1 = jugador 1, 2 = jugador 2.',
+    `Tú eres el jugador ${aiPlayer}.`,
+    'Tablero actual (fila 0 = arriba):',
+    rows,
+    'Responde únicamente con el número de columna (0-6) donde quieres jugar.',
+  ].join('\n');
+}
+
+export function parseColumn(response: string): number | null {
+  const match = response.match(/(?<![0-9])[0-6](?![0-9])/);
+  if (!match) return null;
+  return parseInt(match[0], 10);
+}
+
+export interface GeminiClient {
+  generateMove(prompt: string): Promise<string>;
+}
+
+const MAX_ATTEMPTS = 3;
+
+export async function getAIMove(
+  board: Board,
+  aiPlayer: CellValue,
+  client: GeminiClient
+): Promise<number> {
+  const prompt = buildPrompt(board, aiPlayer);
+  const validColumns = getValidColumns(board);
+
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    try {
+      const response = await client.generateMove(prompt);
+      const col = parseColumn(response);
+      if (col !== null && validColumns.includes(col)) {
+        return col;
+      }
+    } catch (err) {
+      console.warn(`Gemini intento ${attempt + 1}/${MAX_ATTEMPTS} falló:`, err);
+    }
+  }
+
+  return validColumns[Math.floor(Math.random() * validColumns.length)];
+}

@@ -1,0 +1,81 @@
+.game-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.game-header {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.back-btn {
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.8rem;
+}
+
+.back-btn:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--text);
+  box-shadow: none;
+  background: rgba(255,255,255,0.05);
+}
+
+.game-title {
+  font-size: 1.4rem;
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.game-turn-count {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.game-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.players-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.vs-label {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.turn-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .game-page {
+    padding: 1rem 0.75rem;
+  }
+
+  .players-row {
+    gap: 0.5rem;
+  }
+}

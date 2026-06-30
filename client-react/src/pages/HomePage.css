@@ -1,0 +1,110 @@
+.game-select {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.gs-title {
+  font-family: var(--font-tech);
+  font-size: 3rem;
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 0.3em;
+  margin: 0;
+}
+
+.gs-subtitle {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  margin: 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+}
+
+/* ── Name field ── */
+.gs-name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+  max-width: 320px;
+  text-align: left;
+}
+
+.gs-name-input {
+  text-align: center;
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+}
+
+.gs-hint {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-align: center;
+  font-family: var(--font-mono);
+}
+
+/* ── Game cards ── */
+.gs-cards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gs-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 2.5rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--neon-cyan);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s, opacity 0.15s;
+  font-family: var(--font-mono);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.gs-card:hover:not(:disabled) {
+  box-shadow: var(--glow-cyan);
+  transform: translateY(-4px);
+}
+
+.gs-card:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.gs-card-icon { font-size: 2.5rem; }
+
+.gs-card-name {
+  font-family: var(--font-tech);
+  font-size: 1.1rem;
+  color: var(--neon-cyan);
+  letter-spacing: 0.1em;
+}
+
+.gs-card-desc {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.gs-tip {
+  max-width: 480px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}

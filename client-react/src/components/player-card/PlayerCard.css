@@ -1,0 +1,65 @@
+.player-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-width: 160px;
+}
+
+.player-card.player-1 { border-color: rgba(0, 240, 255, 0.3); }
+.player-card.player-2 { border-color: rgba(255, 0, 200, 0.3); }
+
+.player-card.active.player-1 {
+  border-color: var(--cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.player-card.active.player-2 {
+  border-color: var(--magenta);
+  box-shadow: var(--glow-magenta);
+}
+
+.player-piece {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.player-1 .player-piece {
+  background: var(--cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.player-2 .player-piece {
+  background: var(--magenta);
+  box-shadow: var(--glow-magenta);
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.player-name {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.turn-badge {
+  font-size: 0.75rem;
+  color: var(--violet);
+  font-family: var(--font-mono);
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}

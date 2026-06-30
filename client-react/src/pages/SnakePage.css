@@ -1,0 +1,485 @@
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.snake-page-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Shared centered layout ────────────────────────────────────────────────── */
+
+.snake-centered {
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 2rem 1.5rem;
+  position: relative;
+}
+
+.sn-back-btn {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.8rem;
+}
+
+.sn-back-btn:hover:not(:disabled) {
+  border-color: var(--text);
+  color: var(--text);
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Typography ─────────────────────────────────────────────────────────────── */
+
+.snake-title {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  color: var(--green);
+  text-shadow: 0 0 10px var(--green), 0 0 30px #00ff9d55;
+  letter-spacing: 0.2em;
+}
+
+.snake-heading {
+  font-size: 1.6rem;
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.snake-sub {
+  color: var(--text-muted);
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* ─── Error banner ───────────────────────────────────────────────────────────── */
+
+.sn-inline-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: rgba(255,0,200,0.08);
+  border: 1px solid var(--neon-magenta);
+  color: var(--neon-magenta);
+  padding: 0.6rem 1rem;
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+}
+
+.sn-inline-error button {
+  border: none;
+  background: none;
+  clip-path: none;
+  color: var(--neon-magenta);
+  font-size: 1rem;
+  padding: 0;
+  min-width: 20px;
+}
+
+.snake-error {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 0, 200, 0.08);
+  border: 1px solid var(--magenta);
+  color: var(--magenta);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  max-width: 400px;
+}
+
+.snake-error.banner {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.sn-close-btn {
+  border: none;
+  background: transparent;
+  color: var(--magenta);
+  font-size: 1.2rem;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.sn-close-btn:hover {
+  box-shadow: none;
+  background: transparent;
+  opacity: 0.7;
+}
+
+/* ─── Lobby form ─────────────────────────────────────────────────────────────── */
+
+.snake-form {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sn-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sn-form-group label {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.snake-modes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.sn-mode-btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  justify-content: center;
+}
+
+.ai-btn {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.ai-btn:hover:not(:disabled) {
+  box-shadow: 0 0 8px var(--green), 0 0 20px #00ff9d55;
+  background: rgba(0, 255, 157, 0.06);
+}
+
+.sn-join-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sn-join-row input {
+  flex: 1;
+}
+
+.sn-join-row .sn-mode-btn {
+  width: auto;
+  flex-shrink: 0;
+}
+
+.sn-code-input {
+  letter-spacing: 0.18em;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+/* ─── Spinner ────────────────────────────────────────────────────────────────── */
+
+.sn-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 240, 255, 0.2);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: sn-spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes sn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Waiting room ───────────────────────────────────────────────────────────── */
+
+.sn-code-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--violet);
+  border-radius: var(--radius);
+  padding: 1rem 2.5rem;
+}
+
+.sn-code-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.sn-room-code {
+  font-family: var(--font-mono);
+  font-size: 2.4rem;
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 0.3em;
+}
+
+.sn-copy-btn {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+}
+
+.sn-copy-btn:hover:not(:disabled) {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: none;
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.sn-player-count {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.sn-start-btn {
+  border-color: var(--green);
+  color: var(--green);
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
+}
+
+.sn-start-btn:hover:not(:disabled) {
+  box-shadow: 0 0 8px var(--green), 0 0 20px #00ff9d55;
+  background: rgba(0, 255, 157, 0.06);
+}
+
+.sn-waiting-text {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.sn-ghost-btn {
+  border-color: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.sn-ghost-btn:hover:not(:disabled) {
+  color: var(--text);
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--text-muted);
+}
+
+/* ─── Countdown ──────────────────────────────────────────────────────────────── */
+
+.sn-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sn-countdown-num {
+  font-family: var(--font-mono);
+  font-size: clamp(5rem, 20vw, 9rem);
+  color: var(--green);
+  text-shadow: 0 0 15px var(--green), 0 0 50px #00ff9d55;
+  line-height: 1;
+  animation: sn-pulse 1s ease-in-out;
+}
+
+.sn-countdown-label {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+@keyframes sn-pulse {
+  0%  { transform: scale(0.7); opacity: 0.4; }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ─── Game layout ────────────────────────────────────────────────────────────── */
+
+.snake-game-layout {
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 1rem 1.5rem;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.sn-game-header {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sn-scores {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.sn-score-chip {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid;
+  transition: opacity 0.3s;
+}
+
+.sn-score-chip.dead {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+
+.sn-score-chip.mine {
+  font-weight: bold;
+}
+
+/* ─── Canvas ─────────────────────────────────────────────────────────────────── */
+
+.sn-canvas {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  border: 1px solid #1a1a35;
+  border-radius: var(--radius);
+  touch-action: none;
+  image-rendering: pixelated;
+}
+
+/* ─── D-pad (mobile) ─────────────────────────────────────────────────────────── */
+
+.sn-dpad {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 0.25rem;
+}
+
+.sn-dpad-row {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.sn-dpad-center {
+  width: 3rem;
+  height: 3rem;
+}
+
+.sn-dpad-btn {
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  font-size: 1rem;
+  border-color: rgba(0, 240, 255, 0.4);
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+}
+
+.sn-dpad-btn:hover:not(:disabled) {
+  box-shadow: var(--glow-cyan);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+@media (max-width: 640px) {
+  .sn-dpad { display: flex; }
+}
+
+@media (pointer: coarse) {
+  .sn-dpad { display: flex; }
+}
+
+/* ─── Game over ──────────────────────────────────────────────────────────────── */
+
+.sn-rankings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+.sn-rank-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-panel);
+  border: 1px solid #1a1a35;
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+}
+
+.sn-rank-row.mine {
+  border-color: var(--cyan);
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.15);
+}
+
+.sn-rank-row.pos-1 { background: rgba(255, 215, 0, 0.04); }
+
+.sn-rank-pos {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-width: 2rem;
+}
+
+.sn-rank-row.pos-1 .sn-rank-pos { color: gold; }
+.sn-rank-row.pos-2 .sn-rank-pos { color: silver; }
+
+.sn-rank-name {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+}
+
+.sn-rank-score {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sn-gameover-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
