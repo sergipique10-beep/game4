@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSnake } from '../context/SnakeContext';
 import { usePlayer } from '../context/PlayerContext';
-import CyberBg from '../components/CyberBg';
+import CyberBg from '../components/cyber-bg/CyberBg';
 import './SnakePage.css';
 
 const BOT_ID = '__bot__';

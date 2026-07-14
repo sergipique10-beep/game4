@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { usePlayer } from '../context/PlayerContext';
 import { useGame } from '../context/GameContext';
-import CyberBg from '../components/CyberBg';
+import CyberBg from '../components/cyber-bg/CyberBg';
 import './LobbyPage.css';
 
 export default function LobbyPage() {

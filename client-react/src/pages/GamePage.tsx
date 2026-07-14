@@ -40,6 +40,11 @@ export default function GamePage() {
     if (gameStatus === 'idle') navigate('/lobby');
   }, [gameStatus, navigate]);
 
+  const handleColumnClick = useCallback((col: number) => {
+    if (gameStatus !== 'playing' || currentPlayer !== myPlayer) return;
+    makeMove(col);
+  }, [gameStatus, currentPlayer, myPlayer, makeMove]);
+
   if (gameStatus === 'idle') return null;
 
   const isMyTurn = gameStatus === 'playing' && currentPlayer === myPlayer;
@@ -50,11 +55,6 @@ export default function GamePage() {
     leaveRoom();
     navigate('/lobby');
   }
-
-  const handleColumnClick = useCallback((col: number) => {
-    if (gameStatus !== 'playing' || currentPlayer !== myPlayer) return;
-    makeMove(col);
-  }, [gameStatus, currentPlayer, myPlayer, makeMove]);
 
   return (
     <div className="game-page">

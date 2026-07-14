@@ -24,10 +24,15 @@
   --text-primary: #c8d8f0;
   --text-muted: #5a6a80;
   --text-dim: #5a6a80;
+  --white: #fff;
+  --border-dark: #1a1a35;
+  --bg-cell: #0d0d1a;
+  --green-glow-rgba: rgba(0, 255, 157, 0.33);
 
   --glow-cyan: 0 0 6px var(--neon-cyan), 0 0 20px rgba(0, 240, 255, 0.4);
   --glow-magenta: 0 0 6px var(--neon-magenta), 0 0 20px rgba(255, 0, 200, 0.4);
   --glow-violet: 0 0 6px var(--neon-violet), 0 0 20px rgba(157, 77, 255, 0.4);
+  --glow-green: 0 0 6px var(--green), 0 0 20px rgba(0, 255, 157, 0.4);
 
   --font-tech: 'Orbitron', 'Courier New', monospace;
   --font-mono: 'Share Tech Mono', 'Courier New', monospace;
@@ -114,7 +119,7 @@ button {
 button:hover:not(:disabled) {
   background: rgba(0, 240, 255, 0.08);
   box-shadow: var(--glow-cyan);
-  color: #fff;
+  color: var(--white);
 }
 
 button:active { background: rgba(0, 240, 255, 0.16); }
@@ -129,7 +134,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
 .btn-magenta:hover:not(:disabled) {
   background: rgba(255, 0, 200, 0.08);
   box-shadow: var(--glow-magenta);
-  color: #fff;
+  color: var(--white);
 }
 
 .btn-violet {
@@ -139,7 +144,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
 .btn-violet:hover:not(:disabled) {
   background: rgba(157, 77, 255, 0.08);
   box-shadow: var(--glow-violet);
-  color: #fff;
+  color: var(--white);
 }
 
 .btn-green {
@@ -148,8 +153,8 @@ button:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
 }
 .btn-green:hover:not(:disabled) {
   background: rgba(0, 255, 157, 0.08);
-  box-shadow: 0 0 6px var(--green), 0 0 20px rgba(0, 255, 157, 0.4);
-  color: #fff;
+  box-shadow: var(--glow-green);
+  color: var(--white);
 }
 
 .btn-ghost {

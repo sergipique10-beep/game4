@@ -7,7 +7,7 @@ export function getBotDirection(
   state: GameState,
   botId: string,
   humanId: string,
-  depth = 8,
+  depth = 4,
 ): Direction {
   let bestDir: Direction = DIRECTIONS[0];
   let bestScore = -Infinity;

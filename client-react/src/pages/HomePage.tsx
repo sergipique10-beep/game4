@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { usePlayer } from '../context/PlayerContext';
 import { useDailyTip } from '../hooks/useDailyTip';
-import CyberBg from '../components/CyberBg';
+import CyberBg from '../components/cyber-bg/CyberBg';
 import './HomePage.css';
 
 interface NameForm {
