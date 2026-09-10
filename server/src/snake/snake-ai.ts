@@ -7,7 +7,7 @@ export function getBotDirection(
   state: GameState,
   botId: string,
   humanId: string,
-  depth = 4,
+  depth = 3,
 ): Direction {
   let bestDir: Direction = DIRECTIONS[0];
   let bestScore = -Infinity;
@@ -103,10 +103,11 @@ function floodFill(state: GameState, id: string): number {
 
   const visited = new Set<string>();
   const queue: Array<{ x: number; y: number }> = [{ ...snake.body[0] }];
+  let head = 0;
   let count = 0;
 
-  while (queue.length > 0) {
-    const p = queue.shift()!;
+  while (head < queue.length) {
+    const p = queue[head++];
     const key = `${p.x},${p.y}`;
     if (visited.has(key)) continue;
     if (p.x < 0 || p.x >= state.width || p.y < 0 || p.y >= state.height) continue;
