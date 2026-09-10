@@ -11,7 +11,13 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.use(express.static(path.join(__dirname, '../../client/dist/client/browser')));
+const clientDist = path.join(__dirname, '../../client-react/dist');
+app.use(express.static(clientDist));
+
+// SPA fallback so client-side routes (e.g. /snake, /conecta4) work on direct load/refresh
+app.get(/^(?!\/health|\/ws).*/, (_req, res) => {
+  res.sendFile(path.join(clientDist, 'index.html'));
+});
 
 const httpServer = http.createServer(app);
 createWebSocketServer(httpServer);

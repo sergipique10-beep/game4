@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useCallback, useMemo, useRef, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, useRef } from 'react';
+import type { ReactNode } from 'react';
 import type { Board, GameStatus, GameOverInfo, LastMove, AIDifficulty } from '../types';
 
 // Mirrors Angular GameSocketService public interface

@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useCallback, useRef, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
+import type { ReactNode } from 'react';
 
 export interface SnakePoint { x: number; y: number; }
 
